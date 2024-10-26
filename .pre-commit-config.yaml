@@ -49,6 +49,5 @@ repos:
         args: [
           '--ignore-missing-imports',
           '--disallow-untyped-defs',
-          '--warn-redundant-casts',
-          '--follow-imports=skip'
+          '--warn-redundant-casts'
         ]
