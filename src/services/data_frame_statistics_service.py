@@ -1,6 +1,9 @@
+import logging
 from typing import List, Union
 
 import pandas as pd
+
+logger = logging.getLogger(__name__)
 
 
 class DataFrameStatisticsService:
@@ -21,10 +24,16 @@ class DataFrameStatisticsService:
 
         Raises:
             KeyError: If any column in 'columns' is not present in the dataframe.
+            KeyError: If columns is empty
         """
+        if len(columns) < 1:
+            logger.error("Column list is empty", exc_info=True)
+            raise KeyError("Please provide at least one column.")
+
         df_columns = df.columns
         missing_columns = [col for col in columns if col not in df_columns]
         if missing_columns:
+            logger.error(f"{missing_columns} are not part of the dataframe", exc_info=True)
             raise KeyError(f"Columns {missing_columns} are not present in the dataframe.")
 
         grouped_df = df.groupby(columns).size().reset_index(name="number_of_duplicates")
